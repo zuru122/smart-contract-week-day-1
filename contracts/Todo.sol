@@ -19,7 +19,7 @@ contract Todo{
         uint8 id;
         string title;
         bool isCompleted; 
-        uint256 time_completed;
+        uint256 timeCompleted;
     }
 
     Task[] public tasks;
@@ -40,7 +40,34 @@ contract Todo{
         for(uint8 i = 0; i < tasks.length; i++){
             if(tasks[i].id == _id){
                 tasks[i].isCompleted = true;
-                tasks[i].time_completed = block.timestamp;
+                tasks[i].timeCompleted = block.timestamp;
+            }
+        }
+    }
+
+    function deleteTask(uint8 _id) external{
+        for(uint8 i = 0; i < tasks.length; i++){
+            if(tasks[i].id == _id){
+                tasks[i] = tasks[tasks.length - 1];
+                tasks.pop();
+                break;
+            }
+        }
+    }
+
+    function updateTask(uint8 _id, string memory _title) external{
+        for(uint8 i = 0; i < tasks.length; i++){
+            if(tasks[i].id == _id){
+                tasks[i].title = _title;
+            }
+        }
+    }
+
+    function undoTask(uint8 _id) external{
+        for(uint8 i = 0; i < tasks.length; i++){
+            if(tasks[i].id == _id){
+                tasks[i].isCompleted = false;
+                tasks[i].timeCompleted = 0;
             }
         }
     }
